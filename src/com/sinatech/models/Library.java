@@ -64,4 +64,8 @@ public class Library {
     public Thesis getThesis(String id){
         return this.theses.get(id);
     }
+
+    public void removeThesis(String id) {
+        this.theses.remove(id);
+    }
 }
