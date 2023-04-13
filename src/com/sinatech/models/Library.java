@@ -49,4 +49,8 @@ public class Library {
     public Book getBook(String bookId){
         return this.books.get(bookId);
     }
+
+    public void removeBook(String id) {
+        this.books.remove(id);
+    }
 }
