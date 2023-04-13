@@ -46,4 +46,30 @@ public class Database {
         library.addBook(book);
         return new Response(0); //Returns success
     }
+
+    public Response editBook(Book editBook){
+        //Check if library exist in database
+        Library library = libraries.get(editBook.getLibId());
+        if(library == null){
+            return new Response(2); //Returns not-found
+        }
+
+        //Check if category exist
+        if(editBook.getCatId() != null) {
+            Category category = categories.get(editBook.getCatId());
+            if (category == null) {
+                return new Response(2); //Returns not-found
+            }
+        }
+
+        Book book = library.getBook(editBook.getId());
+
+        //Check if book exist in the library
+        if(book == null){
+            return new Response(2); //Returns not-found
+        }
+
+        book.update(editBook);
+        return new Response(0); //Returns success
+    }
 }

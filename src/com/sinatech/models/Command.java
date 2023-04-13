@@ -34,6 +34,9 @@ public class Command {
             case "add-book":
                 this.addBook();
                 break;
+            case "edit-book":
+                this.editBook();
+                break;
         }
     }
 
@@ -56,17 +59,48 @@ public class Command {
         System.out.println(response.getMessage());
     }
 
-    public void addBook() throws Exception{
+    private Book readBookData(boolean editMode) throws Exception{
         String id = args.get(0);
+        String libId;
+        if(editMode){
+            libId = args.get(1);
+            args.remove(1);
+        }else{
+            libId = args.get(7);
+        }
         String title = args.get(1);
+        if(title.equals("-")){
+            title = null;
+        }
         String author = args.get(2);
+        if(author.equals("-")){
+            author = null;
+        }
         String pub = args.get(3);
-        Date printYear = new SimpleDateFormat("YYYY").parse(args.get(4));
-        int copyCount = Integer.parseInt(args.get(5));
+        if(pub.equals("-")){
+            pub = null;
+        }
+        Date printYear = null;
+        if(!args.get(4).equals("-")) {
+            printYear = new SimpleDateFormat("YYYY").parse(args.get(4));
+        }
+        int copyCount = args.get(5).equals("-") ? Book.COPY_COUNT_NULL : Integer.parseInt(args.get(5));
         String catId = args.get(6);
-        String libId = args.get(7);
-        Book book = new Book(id, title, author, pub, printYear, copyCount, catId, libId);
+        if(catId.equals("-")){
+            catId = null;
+        }
+        return new Book(id, title, author, pub, printYear, copyCount, catId, libId);
+    }
+
+    public void addBook() throws Exception{
+        Book book = readBookData(false);
         Response response = db.addBook(book);
+        System.out.println(response.getMessage());
+    }
+
+    public void editBook() throws Exception{
+        Book book = readBookData(true);
+        Response response = db.editBook(book);
         System.out.println(response.getMessage());
     }
 }
