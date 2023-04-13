@@ -11,6 +11,8 @@ public class Database {
     public Database() {
         this.libraries = new HashMap<>();
         this.categories = new HashMap<>();
+        //Default category
+        this.categories.put("null", new Category("null", "null"));
     }
 
     public Response addLibrary(Library library){
@@ -26,6 +28,23 @@ public class Database {
             return new Response(1); //Return duplicate-id
         }
         this.categories.put(category.getId(), category);
+        return new Response(0); //Returns success
+    }
+
+    public Response addBook(Book book){
+        Library library = libraries.get(book.getLibId());
+        if(library == null){
+            return new Response(2); //Returns not-found
+        }
+        Category category = categories.get(book.getCatId());
+        if(category == null){
+            return new Response(2); //Returns not-found
+        }
+        if(library.getBook(book.getId()) != null){
+            return new Response(1); //Returns duplicate-id
+        }
+        library.addBook(book);
+        category.addPaperId(book.getId());
         return new Response(0); //Returns success
     }
 }
