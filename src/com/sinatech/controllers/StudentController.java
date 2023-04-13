@@ -22,4 +22,13 @@ public class StudentController {
         student.update(editStudent);
         return new Response(0); //returns success
     }
+
+    //TODO: Check if the student has debt or has borrowed a book
+    public static Response removeStudent(String id) {
+        if(DatabaseManager.getStudent(id) == null){
+            return new Response(2); //returns not-found
+        }
+        DatabaseManager.deleteStudent(id);
+        return new Response(0); //returns success
+    }
 }
