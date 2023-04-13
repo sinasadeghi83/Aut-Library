@@ -61,6 +61,10 @@ public class Command {
             case "edit-student":
                 this.editStudent();
                 break;
+
+            case "remove-student":
+                this.removeStudent();
+                break;
         }
     }
 
@@ -224,6 +228,12 @@ public class Command {
     public void editStudent() throws Exception{
         Student student = readStudentData();
         Response response = StudentController.editStudent(student);
+        System.out.println(response);
+    }
+
+    public void removeStudent() throws Exception{
+        String id = args.get(0);
+        Response response = StudentController.removeStudent(id);
         System.out.println(response);
     }
 }
