@@ -18,6 +18,9 @@ public class Response {
     public Response(int id, String message) {
         this.id = id;
         this.message = message;
+        if(this.message == null){
+            this.message = getDefaultMessage(id);
+        }
     }
 
     public int getId() {
@@ -34,5 +37,10 @@ public class Response {
             return "Err!";
         }
         return ID_DEFAULT_MSG[id];
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
     }
 }
