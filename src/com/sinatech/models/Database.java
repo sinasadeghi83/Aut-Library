@@ -44,7 +44,6 @@ public class Database {
             return new Response(1); //Returns duplicate-id
         }
         library.addBook(book);
-        category.addPaperId(book.getId());
         return new Response(0); //Returns success
     }
 }
