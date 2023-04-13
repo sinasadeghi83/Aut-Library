@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class Commands {
+public class Command {
     private Database db;
     private String cmdStr;
     private String method;
     private ArrayList<String> args;
 
-    public Commands(String cmdStr, Database db) {
+    public Command(String cmdStr, Database db) {
         this.cmdStr = cmdStr;
         this.db = db;
         args = new ArrayList<>();
