@@ -1,5 +1,6 @@
 package com.sinatech.models;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class Command {
         String[] sepMethodArgs = this.cmdStr.split("#");
         this.method = sepMethodArgs[0];
         if(sepMethodArgs.length > 1) {
-            Collections.addAll(this.args, sepMethodArgs[1].split("|"));
+            Collections.addAll(this.args, sepMethodArgs[1].split("\\|"));
         }
         switch (method){
             case "add-library":
@@ -29,6 +30,9 @@ public class Command {
                 break;
             case "add-category":
                 this.addCategory();
+                break;
+            case "add-book":
+                this.addBook();
                 break;
         }
     }
@@ -49,6 +53,20 @@ public class Command {
         String name = args.get(1);
         Category category = new Category(id, name);
         Response response = db.addCategory(category);
+        System.out.println(response.getMessage());
+    }
+
+    public void addBook() throws Exception{
+        String id = args.get(0);
+        String title = args.get(1);
+        String author = args.get(2);
+        String pub = args.get(3);
+        Date printYear = new SimpleDateFormat("YYYY").parse(args.get(4));
+        int copyCount = Integer.parseInt(args.get(5));
+        String catId = args.get(6);
+        String libId = args.get(7);
+        Book book = new Book(id, title, author, pub, printYear, copyCount, catId, libId);
+        Response response = db.addBook(book);
         System.out.println(response.getMessage());
     }
 }
