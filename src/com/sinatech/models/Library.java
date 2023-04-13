@@ -11,6 +11,8 @@ public class Library {
     private String address;
     // Book's id -> Book's object
     private HashMap<String, Book> books;
+    //Thesis' id -> Thesis' object
+    private HashMap<String, Thesis> theses;
 
     public Library(String id, String name, Date foundDate, int tableCount, String address) {
         this.id = id;
@@ -19,6 +21,7 @@ public class Library {
         this.tableCount = tableCount;
         this.address = address;
         this.books = new HashMap<>();
+        this.theses = new HashMap<>();
     }
 
     public String getId() {
@@ -52,5 +55,13 @@ public class Library {
 
     public void removeBook(String id) {
         this.books.remove(id);
+    }
+
+    public void addThesis(Thesis thesis){
+        this.theses.put(thesis.getId(), thesis);
+    }
+
+    public Thesis getThesis(String id){
+        return this.theses.get(id);
     }
 }
