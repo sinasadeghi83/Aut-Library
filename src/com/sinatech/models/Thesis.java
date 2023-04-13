@@ -64,4 +64,26 @@ public class Thesis {
     public String getLibId() {
         return libId;
     }
+
+    public void update(Thesis editThesis) {
+        if(editThesis.getTitle() != null){
+            this.setTitle(editThesis.getTitle());
+        }
+
+        if(editThesis.getCatId() != null){
+            this.setCatId(editThesis.getCatId());
+        }
+
+        if(editThesis.getDefenseDate() != null){
+            this.setDefenseDate(editThesis.getDefenseDate());
+        }
+
+        if(editThesis.getProfName() != null){
+            this.setProfName(editThesis.getProfName());
+        }
+
+        if(editThesis.getStudName() != null){
+            this.setStudName(editThesis.getStudName());
+        }
+    }
 }
