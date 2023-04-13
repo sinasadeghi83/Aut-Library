@@ -20,6 +20,11 @@ public class Student {
     public String getId() {
         return id;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -62,5 +67,31 @@ public class Student {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void update(Student editStudent) {
+        if(editStudent.getBirthdate() != null){
+            this.setBirthdate(editStudent.getBirthdate());
+        }
+
+        if(editStudent.getAddress() != null){
+            this.setAddress(editStudent.getAddress());
+        }
+
+        if(editStudent.getFirstName() != null){
+            this.setFirstName(editStudent.getFirstName());
+        }
+
+        if(editStudent.getLastName() != null){
+            this.setLastName(editStudent.getLastName());
+        }
+
+        if(editStudent.getNationalCode() != null){
+            this.setNationalCode(editStudent.getNationalCode());
+        }
+
+        if(editStudent.getPassword() != null){
+            this.setPassword(editStudent.getPassword());
+        }
     }
 }
