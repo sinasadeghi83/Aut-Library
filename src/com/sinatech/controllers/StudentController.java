@@ -13,4 +13,13 @@ public class StudentController {
         DatabaseManager.insertStudent(student);
         return new Response(0); //returns success
     }
+
+    public static Response editStudent(Student editStudent) {
+        Student student = DatabaseManager.getStudent(editStudent.getId());
+        if(student == null){
+            return new Response(2); //returns not-found
+        }
+        student.update(editStudent);
+        return new Response(0); //returns success
+    }
 }
