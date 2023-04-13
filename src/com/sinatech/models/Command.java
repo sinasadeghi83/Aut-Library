@@ -37,6 +37,9 @@ public class Command {
             case "edit-book":
                 this.editBook();
                 break;
+            case "remove-book":
+                this.removeBook();
+                break;
         }
     }
 
@@ -102,5 +105,12 @@ public class Command {
         Book book = readBookData(true);
         Response response = db.editBook(book);
         System.out.println(response.getMessage());
+    }
+
+    public void removeBook() throws Exception{
+        String id = args.get(0);
+        String libId = args.get(1);
+        Response response = db.removeBook(id, libId);
+        System.out.println(response);
     }
 }

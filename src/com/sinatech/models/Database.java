@@ -63,7 +63,6 @@ public class Database {
         }
 
         Book book = library.getBook(editBook.getId());
-
         //Check if book exist in the library
         if(book == null){
             return new Response(2); //Returns not-found
@@ -72,4 +71,21 @@ public class Database {
         book.update(editBook);
         return new Response(0); //Returns success
     }
+
+    public Response removeBook(String id, String libId) {
+        //Check if library exist in database
+        Library library = libraries.get(libId);
+        if(library == null){
+            return new Response(2); //Returns not-found
+        }
+        //Check if book exist in the library
+        if(library.getBook(id) == null){
+            return new Response(2); //Returns not-found
+        }
+
+        library.removeBook(id);
+        return new Response(0); //Returns success
+    }
+
+
 }
