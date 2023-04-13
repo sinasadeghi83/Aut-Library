@@ -8,11 +8,13 @@ public class DatabaseManager {
     private static HashMap<String, Library> libraries;
     private static HashMap<String, Category> categories;
     private static HashMap<String, Student> students;
+    private static HashMap<String, Staff> staffs;
 
     public DatabaseManager() {
         libraries = new HashMap<>();
         categories = new HashMap<>();
         students = new HashMap<>();
+        staffs = new HashMap<>();
         //Default category
         categories.put("null", new Category("null", "null"));
     }
@@ -43,5 +45,17 @@ public class DatabaseManager {
 
     public static void deleteStudent(String id) {
         students.remove(id);
+    }
+
+    public static Staff getStaff(String id) {
+        return staffs.get(id);
+    }
+
+    public static void insertStaff(Staff staff) {
+        staffs.put(staff.getId(), staff);
+    }
+
+    public static void deleteStaff(String id) {
+        staffs.remove(id);
     }
 }

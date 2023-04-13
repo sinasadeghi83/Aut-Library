@@ -1,10 +1,7 @@
 package com.sinatech.console;
 
 import com.sinatech.components.DatabaseManager;
-import com.sinatech.controllers.BookController;
-import com.sinatech.controllers.LibraryController;
-import com.sinatech.controllers.StudentController;
-import com.sinatech.controllers.ThesisController;
+import com.sinatech.controllers.*;
 import com.sinatech.models.*;
 
 import java.text.SimpleDateFormat;
@@ -61,9 +58,17 @@ public class Command {
             case "edit-student":
                 this.editStudent();
                 break;
-
             case "remove-student":
                 this.removeStudent();
+                break;
+            case "add-staff":
+                this.addStaff();
+                break;
+            case "edit-staff":
+                this.editStaff();
+                break;
+            case "remove-staff":
+                this.removeStaff();
                 break;
         }
     }
@@ -234,6 +239,53 @@ public class Command {
     public void removeStudent() throws Exception{
         String id = args.get(0);
         Response response = StudentController.removeStudent(id);
+        System.out.println(response);
+    }
+
+    private Staff readStaffData() throws Exception{
+        String id = args.get(0);
+        String password = args.get(1);
+        if(password.equals("-")){
+            password = null;
+        }
+        String firstName = args.get(2);
+        if(firstName.equals("-")){
+            firstName = null;
+        }
+        String lastName = args.get(3);
+        if(lastName.equals("-")){
+            lastName = null;
+        }
+        String nationalCode = args.get(4);
+        if(nationalCode.equals("-")){
+            nationalCode = null;
+        }
+        Date birthdate = null;
+        if(!args.get(5).equals("-")){
+            birthdate = new SimpleDateFormat("YYYY").parse(args.get(5));
+        }
+        String address = args.get(6);
+        if(address.equals("-")){
+            address = null;
+        }
+        return new Staff(id, password, firstName, lastName, nationalCode, birthdate, address);
+    }
+
+    public void addStaff() throws Exception{
+        Staff staff = readStaffData();
+        Response response = StaffController.addStaff(staff);
+        System.out.println(response);
+    }
+
+    public void editStaff() throws Exception{
+        Staff staff = readStaffData();
+        Response response = StaffController.editStaff(staff);
+        System.out.println(response);
+    }
+
+    public void removeStaff() throws Exception{
+        String id = args.get(0);
+        Response response = StaffController.removeStaff(id);
         System.out.println(response);
     }
 }

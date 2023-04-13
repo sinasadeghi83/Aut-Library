@@ -68,4 +68,30 @@ public class Staff {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public void update(Staff editStaff) {
+        if(editStaff.getBirthdate() != null){
+            this.setBirthdate(editStaff.getBirthdate());
+        }
+
+        if(editStaff.getAddress() != null){
+            this.setAddress(editStaff.getAddress());
+        }
+
+        if(editStaff.getFirstName() != null){
+            this.setFirstName(editStaff.getFirstName());
+        }
+
+        if(editStaff.getLastName() != null){
+            this.setLastName(editStaff.getLastName());
+        }
+
+        if(editStaff.getNationalCode() != null){
+            this.setNationalCode(editStaff.getNationalCode());
+        }
+
+        if(editStaff.getPassword() != null){
+            this.setPassword(editStaff.getPassword());
+        }
+    }
 }
