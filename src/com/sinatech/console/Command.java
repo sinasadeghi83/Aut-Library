@@ -48,6 +48,9 @@ public class Command {
             case "add-thesis":
                 this.addThesis();
                 break;
+            case "edit-thesis":
+                this.editThesis();
+                break;
         }
     }
 
@@ -122,20 +125,47 @@ public class Command {
         System.out.println(response);
     }
 
-    private Thesis readThesisData() throws Exception{
+    private Thesis readThesisData(boolean editMode) throws Exception{
         String id = args.get(0);
+        String libId;
+        if(editMode){
+            libId = args.get(1);
+            args.remove(1);
+        }else{
+            libId = args.get(6);
+        }
         String title = args.get(1);
+        if(title.equals("-")){
+            title = null;
+        }
         String studName = args.get(2);
+        if(studName.equals("-")){
+            studName = null;
+        }
         String profName = args.get(3);
-        Date defenseDate = new SimpleDateFormat("YYYY").parse(args.get(4));
+        if(profName.equals("-")){
+            profName = null;
+        }
+        Date defenseDate = null;
+        if(!args.get(4).equals("-")) {
+            defenseDate = new SimpleDateFormat("YYYY").parse(args.get(4));
+        }
         String catId = args.get(5);
-        String libId = args.get(6);
+        if(catId.equals("-")){
+            catId = null;
+        }
         return new Thesis(id, title, studName, profName, defenseDate, catId, libId);
     }
 
     public void addThesis() throws Exception{
-        Thesis thesis = readThesisData();
+        Thesis thesis = readThesisData(false);
         Response response = ThesisController.addThesis(thesis);
+        System.out.println(response);
+    }
+
+    public void editThesis() throws Exception{
+        Thesis thesis = readThesisData(true);
+        Response response = ThesisController.editThesis(thesis);
         System.out.println(response);
     }
 }
