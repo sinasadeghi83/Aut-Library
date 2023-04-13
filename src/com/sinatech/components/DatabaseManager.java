@@ -40,4 +40,8 @@ public class DatabaseManager {
     public static void insertStudent(Student student) {
         students.put(student.getId(), student);
     }
+
+    public static void deleteStudent(String id) {
+        students.remove(id);
+    }
 }
