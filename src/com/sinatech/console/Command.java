@@ -3,6 +3,7 @@ package com.sinatech.console;
 import com.sinatech.components.DatabaseManager;
 import com.sinatech.controllers.BookController;
 import com.sinatech.controllers.LibraryController;
+import com.sinatech.controllers.StudentController;
 import com.sinatech.controllers.ThesisController;
 import com.sinatech.models.*;
 
@@ -53,6 +54,9 @@ public class Command {
                 break;
             case "remove-thesis":
                 this.removeThesis();
+                break;
+            case "add-student":
+                this.addStudent();
                 break;
         }
     }
@@ -176,6 +180,23 @@ public class Command {
         String id = args.get(0);
         String libId = args.get(1);
         Response response = ThesisController.removeThesis(id, libId);
+        System.out.println(response);
+    }
+
+    private Student readStudentData() throws Exception{
+        String id = args.get(0);
+        String password = args.get(1);
+        String firstName = args.get(2);
+        String lastName = args.get(3);
+        String nationalCode = args.get(4);
+        Date birthdate = new SimpleDateFormat("YYYY").parse(args.get(5));
+        String address = args.get(6);
+        return new Student(id, password, firstName, lastName, nationalCode, birthdate, address);
+    }
+
+    public void addStudent() throws Exception{
+        Student student = readStudentData();
+        Response response = StudentController.addStudent(student);
         System.out.println(response);
     }
 }
