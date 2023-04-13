@@ -27,6 +27,9 @@ public class Command {
             case "add-library":
                 this.addLibrary();
                 break;
+            case "add-category":
+                this.addCategory();
+                break;
         }
     }
 
@@ -38,6 +41,14 @@ public class Command {
         String address = args.get(4);
         Library lib = new Library(id, name, foundDate, tableCount, address);
         Response response = db.addLibrary(lib);
+        System.out.println(response.getMessage());
+    }
+
+    public void addCategory(){
+        String id = args.get(0);
+        String name = args.get(1);
+        Category category = new Category(id, name);
+        Response response = db.addCategory(category);
         System.out.println(response.getMessage());
     }
 }
