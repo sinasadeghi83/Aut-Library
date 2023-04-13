@@ -3,6 +3,8 @@ package com.sinatech.models;
 import java.util.Date;
 
 public class Book {
+
+    public static final int COPY_COUNT_NULL = -1;
     private String id;
     private String libId;
     private String title;
@@ -79,5 +81,31 @@ public class Book {
 
     public void setCatId(String catId) {
         this.catId = catId;
+    }
+
+    public void update(Book editBook) {
+        if(editBook.getTitle() != null){
+            this.setTitle(editBook.getTitle());
+        }
+
+        if(editBook.getAuthor() != null){
+            this.setAuthor(editBook.getAuthor());
+        }
+
+        if(editBook.getPub() != null){
+            this.setPub(editBook.getPub());
+        }
+
+        if(editBook.getPrintDate() != null){
+            this.setPrintDate(editBook.getPrintDate());
+        }
+
+        if(editBook.getCopyCount() != COPY_COUNT_NULL){
+            this.setCopyCount(editBook.getCopyCount());
+        }
+
+        if(editBook.getCatId() != null){
+            this.setCatId(editBook.getCatId());
+        }
     }
 }
