@@ -58,6 +58,9 @@ public class Command {
             case "add-student":
                 this.addStudent();
                 break;
+            case "edit-student":
+                this.editStudent();
+                break;
         }
     }
 
@@ -186,17 +189,41 @@ public class Command {
     private Student readStudentData() throws Exception{
         String id = args.get(0);
         String password = args.get(1);
+        if(password.equals("-")){
+            password = null;
+        }
         String firstName = args.get(2);
+        if(firstName.equals("-")){
+            firstName = null;
+        }
         String lastName = args.get(3);
+        if(lastName.equals("-")){
+            lastName = null;
+        }
         String nationalCode = args.get(4);
-        Date birthdate = new SimpleDateFormat("YYYY").parse(args.get(5));
+        if(nationalCode.equals("-")){
+            nationalCode = null;
+        }
+        Date birthdate = null;
+        if(!args.get(5).equals("-")){
+            birthdate = new SimpleDateFormat("YYYY").parse(args.get(5));
+        }
         String address = args.get(6);
+        if(address.equals("-")){
+            address = null;
+        }
         return new Student(id, password, firstName, lastName, nationalCode, birthdate, address);
     }
 
     public void addStudent() throws Exception{
         Student student = readStudentData();
         Response response = StudentController.addStudent(student);
+        System.out.println(response);
+    }
+
+    public void editStudent() throws Exception{
+        Student student = readStudentData();
+        Response response = StudentController.editStudent(student);
         System.out.println(response);
     }
 }
