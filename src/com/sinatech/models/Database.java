@@ -10,6 +10,7 @@ public class Database {
 
     public Database() {
         this.libraries = new HashMap<>();
+        this.categories = new HashMap<>();
     }
 
     public Response addLibrary(Library library){
