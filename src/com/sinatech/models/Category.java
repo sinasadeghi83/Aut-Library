@@ -7,12 +7,12 @@ public class Category {
     private String name;
 
     //A collection of Book and thesis ids which belong to this category
-    private HashSet<String> paperIds;
+    private HashSet<String> bookIds;
 
     public Category(String id, String name) {
         this.id = id;
         this.name = name;
-        this.paperIds = new HashSet<>();
+        this.bookIds = new HashSet<>();
     }
 
     public String getId() {
@@ -24,6 +24,6 @@ public class Category {
     }
 
     public void addPaperId(String id){
-        paperIds.add(id);
+        bookIds.add(id);
     }
 }
