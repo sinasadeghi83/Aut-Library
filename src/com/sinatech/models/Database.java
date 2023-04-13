@@ -88,4 +88,19 @@ public class Database {
     }
 
 
+    public Response addThesis(Thesis thesis) {
+        Library library = libraries.get(thesis.getLibId());
+        if(library == null){
+            return new Response(2); //Returns not-found
+        }
+        Category category = categories.get(thesis.getCatId());
+        if(category == null){
+            return new Response(2); //Returns not-found
+        }
+        if(library.getThesis(thesis.getId()) != null){
+            return new Response(1); //Returns duplicate-id
+        }
+        library.addThesis(thesis);
+        return new Response(0); //Returns success
+    }
 }

@@ -40,6 +40,9 @@ public class Command {
             case "remove-book":
                 this.removeBook();
                 break;
+            case "add-thesis":
+                this.addThesis();
+                break;
         }
     }
 
@@ -111,6 +114,23 @@ public class Command {
         String id = args.get(0);
         String libId = args.get(1);
         Response response = db.removeBook(id, libId);
+        System.out.println(response);
+    }
+
+    private Thesis readThesisData() throws Exception{
+        String id = args.get(0);
+        String title = args.get(1);
+        String studName = args.get(2);
+        String profName = args.get(3);
+        Date defenseDate = new SimpleDateFormat("YYYY").parse(args.get(4));
+        String catId = args.get(5);
+        String libId = args.get(6);
+        return new Thesis(id, title, studName, profName, defenseDate, catId, libId);
+    }
+
+    public void addThesis() throws Exception{
+        Thesis thesis = readThesisData();
+        Response response = db.addThesis(thesis);
         System.out.println(response);
     }
 }
