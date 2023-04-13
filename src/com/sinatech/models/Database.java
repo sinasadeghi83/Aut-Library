@@ -10,4 +10,12 @@ public class Database {
     public Database() {
         this.libraries = new HashMap<>();
     }
+
+    public Response addLibrary(Library library){
+        if(libraries.get(library.getId()) != null){
+            return new Response(1); //Return duplicate-id
+        }
+        this.libraries.put(library.getId(), library);
+        return new Response(0); //Returns success
+    }
 }
