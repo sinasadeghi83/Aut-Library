@@ -11,6 +11,8 @@ public class Book {
     private String pub;
     private Date printDate;
     private int copyCount;
+    //Category's id
+    private String catId;
 
     public String getId() {
         return id;
@@ -20,9 +22,7 @@ public class Book {
         return libId;
     }
 
-    private Category category;
-
-    public Book(String id, String libId, String title, String author, String pub, Date printDate, int copyCount, Category category) {
+    public Book(String id, String title, String author, String pub, Date printDate, int copyCount, String catId, String libId) {
         this.id = id;
         this.libId = libId;
         this.title = title;
@@ -30,7 +30,7 @@ public class Book {
         this.pub = pub;
         this.printDate = printDate;
         this.copyCount = copyCount;
-        this.category = category;
+        this.catId = catId;
     }
 
     public String getTitle() {
@@ -73,11 +73,11 @@ public class Book {
         this.copyCount = copyCount;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getCatId() {
+        return catId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCatId(String catId) {
+        this.catId = catId;
     }
 }
