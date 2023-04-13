@@ -1,18 +1,23 @@
-package com.sinatech.models;
+package com.sinatech.console;
 
-import java.text.DateFormat;
+import com.sinatech.components.DatabaseManager;
+import com.sinatech.controllers.BookController;
+import com.sinatech.controllers.LibraryController;
+import com.sinatech.controllers.ThesisController;
+import com.sinatech.models.*;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
 public class Command {
-    private Database db;
+    private DatabaseManager db;
     private String cmdStr;
     private String method;
     private ArrayList<String> args;
 
-    public Command(String cmdStr, Database db) {
+    public Command(String cmdStr, DatabaseManager db) {
         this.cmdStr = cmdStr;
         this.db = db;
         args = new ArrayList<>();
@@ -53,7 +58,7 @@ public class Command {
         int tableCount = Integer.parseInt(args.get(3));
         String address = args.get(4);
         Library lib = new Library(id, name, foundDate, tableCount, address);
-        Response response = db.addLibrary(lib);
+        Response response = LibraryController.addLibrary(lib);
         System.out.println(response.getMessage());
     }
 
@@ -61,7 +66,7 @@ public class Command {
         String id = args.get(0);
         String name = args.get(1);
         Category category = new Category(id, name);
-        Response response = db.addCategory(category);
+        Response response = LibraryController.addCategory(category);
         System.out.println(response.getMessage());
     }
 
@@ -100,20 +105,20 @@ public class Command {
 
     public void addBook() throws Exception{
         Book book = readBookData(false);
-        Response response = db.addBook(book);
+        Response response = BookController.addBook(book);
         System.out.println(response.getMessage());
     }
 
     public void editBook() throws Exception{
         Book book = readBookData(true);
-        Response response = db.editBook(book);
+        Response response = BookController.editBook(book);
         System.out.println(response.getMessage());
     }
 
     public void removeBook() throws Exception{
         String id = args.get(0);
         String libId = args.get(1);
-        Response response = db.removeBook(id, libId);
+        Response response = BookController.removeBook(id, libId);
         System.out.println(response);
     }
 
@@ -130,7 +135,7 @@ public class Command {
 
     public void addThesis() throws Exception{
         Thesis thesis = readThesisData();
-        Response response = db.addThesis(thesis);
+        Response response = ThesisController.addThesis(thesis);
         System.out.println(response);
     }
 }
