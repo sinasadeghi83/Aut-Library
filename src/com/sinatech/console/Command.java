@@ -51,6 +51,9 @@ public class Command {
             case "edit-thesis":
                 this.editThesis();
                 break;
+            case "remove-thesis":
+                this.removeThesis();
+                break;
         }
     }
 
@@ -166,6 +169,13 @@ public class Command {
     public void editThesis() throws Exception{
         Thesis thesis = readThesisData(true);
         Response response = ThesisController.editThesis(thesis);
+        System.out.println(response);
+    }
+
+    public void removeThesis() throws Exception{
+        String id = args.get(0);
+        String libId = args.get(1);
+        Response response = ThesisController.removeThesis(id, libId);
         System.out.println(response);
     }
 }
