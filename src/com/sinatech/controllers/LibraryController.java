@@ -4,6 +4,9 @@ import com.sinatech.components.DatabaseManager;
 import com.sinatech.models.*;
 
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 
 public class LibraryController {
 
@@ -140,6 +143,27 @@ public class LibraryController {
             return new Response(2); //not-found
         }
         String result = library.getBooks().size() + " " + library.getTheses().size() + " " + library.getBorrowedBooks().size() + " " + library.getBorrowedTheses().size();
+        return new Response(0, result);
+    }
+
+    public static Response reportDeadline(String id, Date date) {
+        Library library = DatabaseManager.getLibrary(id);
+        if(library == null){
+            return new Response(2); //not-found
+        }
+
+        HashSet<String> ids = library.getPassedDeadlineIds(date);
+        String result = "";
+        for (String mid:
+             ids) {
+            result += "|" + mid;
+        }
+        if(result.length() > 0){
+            result = result.substring(1);
+        }else {
+            result = "none";
+        }
+
         return new Response(0, result);
     }
 }

@@ -3,6 +3,7 @@ package com.sinatech.models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Library {
 
@@ -16,7 +17,7 @@ public class Library {
     private HashMap<String, Book> books;
     //Thesis' id -> Thesis' object
     private HashMap<String, Thesis> theses;
-    //Paper id -> Borrow object
+    //Paper id -> Borrow objects
     private HashMap<String, ArrayList<Borrow>> borrows;
 
     public Library(String id, String name, Date foundDate, int tableCount, String address) {
@@ -134,7 +135,8 @@ public class Library {
         if(maxBorrow == null){
             return RETURN_FALSE;
         }
-        int debt = calcDebt(user, maxBorrow, returnBor.getDate());
+        int debt = calcDebt(maxBorrow, returnBor.getDate());
+        setDebt(user, debt);
         borrowList.remove(maxBorrow);
         return debt;
     }
@@ -205,31 +207,38 @@ public class Library {
         return maxBorrow;
     }
 
-    private int calcDebt(Object userObj, Borrow maxBorrow, Date returnDate){
+    private int calcDebt(Borrow maxBorrow, Date returnDate){
         int debt = 0;
 
-        if(userObj instanceof Staff user){
+        if(maxBorrow == null){
+            return 0;
+        }
+
+        if(maxBorrow.isStaff()){
             if(maxBorrow.isBook()) {
                 debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 14 * 24)*100;
             }else {
                 debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24)*100;
             }
-            if(debt < 0){
-                debt = 0;
-            }
-            user.setDebt(user.getDebt() + debt);
-        } else if (userObj instanceof Student user) {
+        } else {
             if(maxBorrow.isBook()) {
                 debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24)*50;
             }else {
                 debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 7 * 24)*50;
             }
-            if(debt < 0){
-                debt = 0;
-            }
-            user.setDebt(user.getDebt() + debt);
+        }
+        if(debt < 0){
+            debt = 0;
         }
         return debt;
+    }
+
+    private void setDebt(Object userObj, int debt){
+        if(userObj instanceof Staff user){
+            user.setDebt(user.getDebt() + debt);
+        }else if(userObj instanceof Student user){
+            user.setDebt(user.getDebt() + debt);
+        }
     }
 
     public ArrayList<Book> getBooks(){
@@ -279,5 +288,32 @@ public class Library {
         }
 
         return result;
+    }
+
+    private Borrow getMinBorrow(ArrayList<Borrow> borrowList){
+        Borrow minBorrow = null;
+        for(int i = 0; i < borrowList.size(); i++){
+            Borrow temp = borrowList.get(i);
+            if(minBorrow == null){
+                minBorrow = temp;
+                continue;
+            }
+            if(temp.getDate().getTime() < minBorrow.getDate().getTime()){
+                minBorrow = temp;
+            }
+        }
+        return minBorrow;
+    }
+
+    public HashSet<String> getPassedDeadlineIds(Date today) {
+        HashSet<String> ids = new HashSet<>();
+        for (ArrayList<Borrow> borrowList : new ArrayList<>(borrows.values())){
+            Borrow minBorrow = getMinBorrow(borrowList);
+            int debt = calcDebt(minBorrow, today);
+            if(debt > 0){
+                ids.add(minBorrow.getPaperId());
+            }
+        }
+        return ids;
     }
 }

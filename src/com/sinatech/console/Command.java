@@ -88,6 +88,9 @@ public class Command {
             case "library-report":
                 this.libReport();
                 break;
+            case "report-passed-deadline":
+                this.reportDeadline();
+                break;
         }
     }
 
@@ -354,6 +357,14 @@ public class Command {
     public void libReport(){
         String id = args.get(0);
         Response response = LibraryController.libReport(id);
+        System.out.println(response);
+    }
+
+    public void reportDeadline() throws Exception{
+        String id = args.get(0);
+        String strDate = args.get(1) + "|" + args.get(2);
+        Date date = new SimpleDateFormat("yyyy-MM-dd|hh:mm").parse(strDate);
+        Response response = LibraryController.reportDeadline(id, date);
         System.out.println(response);
     }
 }
