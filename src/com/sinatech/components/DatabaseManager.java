@@ -43,8 +43,13 @@ public class DatabaseManager {
         students.put(student.getId(), student);
     }
 
-    public static void deleteStudent(String id) {
+    public static boolean deleteStudent(String id) {
+        Student student = students.get(id);
+        if(student.getBorrowedCount() > 0 || student.getDebt() > 0){
+            return false;
+        }
         students.remove(id);
+        return true;
     }
 
     public static Staff getStaff(String id) {
