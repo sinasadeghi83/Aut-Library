@@ -79,6 +79,9 @@ public class Command {
             case "search":
                 this.search();
                 break;
+            case "search-user":
+                this.searchUser();
+                break;
         }
     }
 
@@ -325,6 +328,14 @@ public class Command {
     public void search() throws Exception{
         String query = args.get(0);
         Response response = LibraryController.search(query);
+        System.out.println(response);
+    }
+
+    public void searchUser(){
+        String id = args.get(0);
+        String password = args.get(1);
+        String query = args.get(2);
+        Response response = UserController.search(id, password, query);
         System.out.println(response);
     }
 }
