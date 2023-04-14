@@ -1,13 +1,15 @@
 package com.sinatech.models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Staff {
     private String id, password, firstName, lastName, nationalCode;
     private Date birthdate;
     private String address;
-
-    private int borrowCount, debt;
+    private int debt;
+    private HashMap<String, Integer> borrowCount;
 
     public Staff(String id, String password, String firstName, String lastName, String nationalCode, Date birthdate, String address) {
         this.id = id;
@@ -17,7 +19,8 @@ public class Staff {
         this.nationalCode = nationalCode;
         this.birthdate = birthdate;
         this.address = address;
-        this.borrowCount = 0;
+        this.borrowCount = new HashMap<>();
+        this.debt = 0;
     }
 
     public int getDebt() {
@@ -28,12 +31,26 @@ public class Staff {
         this.debt = debt;
     }
 
-    public int getBorrowCount() {
-        return borrowCount;
+    public int getBorrowCount(String libId) {
+        Integer count = borrowCount.get(libId);
+        if(count == null){
+            return 0;
+        }
+        return count.intValue();
     }
 
-    public void setBorrowCount(int borrowCount) {
-        this.borrowCount = borrowCount;
+    public void setBorrowCount(String libId, int borrowCount) {
+        this.borrowCount.put(libId, borrowCount);
+    }
+
+    public boolean isBorrowed(){
+        for (Integer bCount :
+                new ArrayList<>(borrowCount.values())) {
+            if(bCount > 0){
+                return true;
+            }
+        }
+        return false;
     }
 
     public String getId() {

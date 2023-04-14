@@ -49,7 +49,7 @@ public class DatabaseManager {
 
     public static boolean deleteStudent(String id) {
         Student student = students.get(id);
-        if(student.getBorrowedCount() > 0 || student.getDebt() > 0){
+        if(student.isBorrowed() || student.getDebt() > 0){
             return false;
         }
         students.remove(id);
@@ -66,7 +66,7 @@ public class DatabaseManager {
 
     public static boolean deleteStaff(String id) {
         Staff staff = staffs.get(id);
-        if(staff.getBorrowCount() > 0 || staff.getDebt() > 0){
+        if(staff.isBorrowed() || staff.getDebt() > 0){
             return false;
         }
         staffs.remove(id);

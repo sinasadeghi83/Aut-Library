@@ -119,9 +119,9 @@ public class Library {
 
     private boolean checkUserAbleToBorrow(Object userObj){
         if(userObj instanceof Staff staff){
-            return staff.getBorrowCount() <= 5;
+            return staff.getBorrowCount(this.id) <= 5;
         }else if(userObj instanceof Student student){
-            return student.getBorrowedCount() <= 3;
+            return student.getBorrowCount(this.id) <= 3;
         }
         return false;
     }
@@ -183,9 +183,9 @@ public class Library {
 
     private void increaseUserBorrow(Object userObj) {
         if(userObj instanceof Staff staff){
-            staff.setBorrowCount(staff.getBorrowCount()+1);
+            staff.setBorrowCount(this.id, staff.getBorrowCount(this.id)+1);
         } else if (userObj instanceof Student student) {
-            student.setBorrowedCount(student.getBorrowedCount()+1);
+            student.setBorrowCount(this.id, student.getBorrowCount(this.id)+1);
         }
     }
 
