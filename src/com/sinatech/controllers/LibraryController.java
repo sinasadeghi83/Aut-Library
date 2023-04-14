@@ -166,4 +166,19 @@ public class LibraryController {
 
         return new Response(0, result);
     }
+
+    public static Response reportPenalties() {
+        int penalties = 0;
+        for (Student student :
+                DatabaseManager.getStudents()) {
+            penalties += student.getDebt();
+        }
+
+        for (Staff staff :
+                DatabaseManager.getStaffs()) {
+            penalties += staff.getDebt();
+        }
+
+        return new Response(0, Integer.toString(penalties));
+    }
 }

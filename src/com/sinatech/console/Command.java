@@ -91,6 +91,8 @@ public class Command {
             case "report-passed-deadline":
                 this.reportDeadline();
                 break;
+            case "report-penalties-sum":
+                this.reportPenalties();
         }
     }
 
@@ -365,6 +367,11 @@ public class Command {
         String strDate = args.get(1) + "|" + args.get(2);
         Date date = new SimpleDateFormat("yyyy-MM-dd|hh:mm").parse(strDate);
         Response response = LibraryController.reportDeadline(id, date);
+        System.out.println(response);
+    }
+
+    public void reportPenalties() throws Exception{
+        Response response = LibraryController.reportPenalties();
         System.out.println(response);
     }
 }
