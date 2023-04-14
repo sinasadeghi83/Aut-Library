@@ -22,7 +22,7 @@ public class UserController {
             supposedPass = student.getPassword();
         }
         if(!supposedPass.equals(password)){
-            return new Response(3); //not-allowed
+            return new Response(4); //invalid-pass
         }
 
         String result = DatabaseManager.searchUser(query);
