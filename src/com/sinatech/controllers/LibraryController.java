@@ -5,6 +5,7 @@ import com.sinatech.models.*;
 
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -99,15 +100,25 @@ public class LibraryController {
 
     public static Response search(String query) {
         query = query.toLowerCase();
-        String result = "";
+        ArrayList<String> result = new ArrayList<>();
         for (Library lib:
                 DatabaseManager.getLibraries()) {
-            result += "|" + lib.search(query);
+            result.addAll(lib.search(query));
         }
-        if(result.length() > 0){
-            result = result.substring(1);
+
+        if(result.size() == 0){
+            return new Response(2); //not-found
         }
-        return new Response(0, result);
+
+        Collections.sort(result);
+        String strResult = "";
+        for (int i = 0; i < result.size(); i++) {
+            if(i > 0){
+                strResult += "|";
+            }
+            strResult += result.get(i);
+        }
+        return new Response(0, strResult);
     }
 
     private static boolean checkUserPass(Object userObj, String userPass, boolean isStaff){

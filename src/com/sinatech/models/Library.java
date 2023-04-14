@@ -172,42 +172,30 @@ public class Library {
         }
     }
 
-    public String search(String query){
-        String result;
-        String bookResult = searchBook(query);
-        String thesisResult = searchThesis(query);
-        if(bookResult.length() > 0 && thesisResult.length() > 0){
-            result = bookResult + thesisResult;
-        }else{
-            result = bookResult + thesisResult;
-        }
+    public ArrayList<String> search(String query){
+        ArrayList<String> result = searchBook(query);
+        result.addAll(searchThesis(query));
         return result;
     }
 
-    public String searchBook(String query){
-        String result = "";
+    public ArrayList<String> searchBook(String query){
+        ArrayList<String> result = new ArrayList<>();
         for (Book book :
-                new ArrayList<>(books.values())) {
+                getBooks()) {
             if(book.toString().toLowerCase().contains(query)){
-                result += "|" + book.getId();
+               result.add(book.getId());
             }
-        }
-        if(result.length() > 0){
-            result = result.substring(1);
         }
         return result;
     }
 
-    public String searchThesis(String query){
-        String result = "";
+    public ArrayList<String> searchThesis(String query){
+        ArrayList<String> result = new ArrayList<>();
         for (Thesis thesis :
-                new ArrayList<>(theses.values())) {
+                getTheses()) {
             if(thesis.toString().toLowerCase().contains(query)){
-                result += "|" + thesis.getId();
+                result.add(thesis.getId());
             }
-        }
-        if(result.length() > 0){
-            result = result.substring(1);
         }
         return result;
     }
