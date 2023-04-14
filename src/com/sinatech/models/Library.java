@@ -93,7 +93,7 @@ public class Library {
         if(borrowList == null){
             borrowList = new ArrayList<>();
         }
-        if(!checkUserAbleToBorrow(userObj) || borrowList.size() == book.getCopyCount()){
+        if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == book.getCopyCount()){
             return false;
         }
         increaseUserBorrow(userObj);
@@ -108,7 +108,7 @@ public class Library {
         if(borrowList == null){
             borrowList = new ArrayList<>();
         }
-        if(!checkUserAbleToBorrow(userObj) || borrowList.size() == 1){
+        if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == 1){
             return false;
         }
         increaseUserBorrow(userObj);
@@ -117,11 +117,11 @@ public class Library {
         return true;
     }
 
-    private boolean checkUserAbleToBorrow(Object userObj){
+    private boolean checkUserAbleToBorrow(Object userObj, String paperId){
         if(userObj instanceof Staff staff){
-            return staff.getBorrowCount(this.id) <= 5;
+            return staff.getBorrowCount(this.id) <= 5 && getMaxBorrow(borrows.get(paperId), staff.getId()) == null;
         }else if(userObj instanceof Student student){
-            return student.getBorrowCount(this.id) <= 3;
+            return student.getBorrowCount(this.id) <= 3 && getMaxBorrow(borrows.get(paperId), student.getId()) == null;
         }
         return false;
     }
@@ -191,6 +191,10 @@ public class Library {
 
     private Borrow getMaxBorrow(ArrayList<Borrow> borrowList, String userId){
         Borrow maxBorrow = null;
+        if(borrowList == null){
+            return null;
+        }
+
         for(int i = 0; i < borrowList.size(); i++){
             Borrow temp = borrowList.get(i);
             if(!temp.getUserId().equals(userId)){
