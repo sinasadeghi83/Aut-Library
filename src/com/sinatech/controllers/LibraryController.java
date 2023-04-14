@@ -163,7 +163,9 @@ public class LibraryController {
             return new Response(2); //not-found
         }
 
-        HashSet<String> ids = library.getPassedDeadlineIds(date);
+        HashSet<String> idsSet = library.getPassedDeadlineIds(date);
+        ArrayList<String> ids = new ArrayList<>(idsSet);
+        Collections.sort(ids);
         String result = "";
         for (String mid:
              ids) {
