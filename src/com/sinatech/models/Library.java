@@ -231,4 +231,23 @@ public class Library {
         }
         return debt;
     }
+
+    public int[] catReport(String id) {
+        int[] result = new int[]{0, 0};
+        for (Book book :
+                new ArrayList<>(books.values())) {
+            if (book.getCatId().equals(id)) {
+                result[0]++;
+            }
+        }
+
+        for (Thesis thesis :
+                new ArrayList<>(theses.values())) {
+            if(thesis.getCatId().equals(thesis.getCatId())){
+                result[1]++;
+            }
+        }
+
+        return result;
+    }
 }

@@ -116,4 +116,21 @@ public class LibraryController {
             return userPass.equals(user.getPassword());
         }
     }
+
+    public static Response catReport(String id) {
+        int bookCount = 0;
+        int thesisCount = 0;
+
+        if(DatabaseManager.getCategory(id) == null){
+            return new Response(2); //not-found
+        }
+
+        for (Library lib :
+                DatabaseManager.getLibraries()) {
+            int[] report = lib.catReport(id);
+            bookCount += report[0];
+            thesisCount += report[1];
+        }
+        return new Response(0, bookCount + " " + thesisCount);
+    }
 }

@@ -82,6 +82,9 @@ public class Command {
             case "search-user":
                 this.searchUser();
                 break;
+            case "category-report":
+                this.catReport();
+                break;
         }
     }
 
@@ -336,6 +339,12 @@ public class Command {
         String password = args.get(1);
         String query = args.get(2);
         Response response = UserController.search(id, password, query);
+        System.out.println(response);
+    }
+
+    public void catReport(){
+        String id = args.get(0);
+        Response response = LibraryController.catReport(id);
         System.out.println(response);
     }
 }
