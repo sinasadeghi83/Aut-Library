@@ -7,7 +7,7 @@ public class Staff {
     private Date birthdate;
     private String address;
 
-    private int borrowCount;
+    private int borrowCount, debt;
 
     public Staff(String id, String password, String firstName, String lastName, String nationalCode, Date birthdate, String address) {
         this.id = id;
@@ -18,6 +18,14 @@ public class Staff {
         this.birthdate = birthdate;
         this.address = address;
         this.borrowCount = 0;
+    }
+
+    public int getDebt() {
+        return debt;
+    }
+
+    public void setDebt(int debt) {
+        this.debt = debt;
     }
 
     public int getBorrowCount() {

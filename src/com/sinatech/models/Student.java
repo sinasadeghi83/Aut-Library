@@ -6,7 +6,7 @@ public class Student {
     private String id, password, firstName, lastName, nationalCode;
     private Date birthdate;
     private String address;
-    private int borrowedCount;
+    private int borrowedCount, debt;
 
     public Student(String id, String password, String firstName, String lastName, String nationalCode, Date birthdate, String address) {
         this.id = id;
@@ -16,7 +16,15 @@ public class Student {
         this.nationalCode = nationalCode;
         this.birthdate = birthdate;
         this.address = address;
-        this.borrowedCount = 0;
+        this.borrowedCount = this.debt = 0;
+    }
+
+    public int getDebt() {
+        return debt;
+    }
+
+    public void setDebt(int debt) {
+        this.debt = debt;
     }
 
     public int getBorrowedCount() {
