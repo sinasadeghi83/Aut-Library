@@ -1,17 +1,29 @@
 package com.sinatech.models;
 
+import com.sinatech.components.DatabaseManager;
+
 import java.util.Date;
 
 public class Borrow {
-    private String userId, userType, paperId, paperType;
+    private String userId, paperId, libId;
+    private boolean isStaff, isBook;
     private Date date;
 
-    public Borrow(String userId, String userType, String paperId, String paperType, Date date) {
+    public Borrow(String userId, boolean isStaff, String paperId, boolean isBook, Date date, String libId) {
         this.userId = userId;
-        this.userType = userType;
+        this.isStaff = isStaff;
         this.paperId = paperId;
-        this.paperType = paperType;
+        this.isBook = isBook;
         this.date = date;
+        this.libId = libId;
+    }
+
+    public String getLibId() {
+        return libId;
+    }
+
+    public void setLibId(String libId) {
+        this.libId = libId;
     }
 
     public String getUserId() {
@@ -22,12 +34,12 @@ public class Borrow {
         this.userId = userId;
     }
 
-    public String getUserType() {
-        return userType;
+    public boolean isStaff() {
+        return isStaff;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setIsStaff() {
+        this.isStaff = DatabaseManager.getStaff(this.userId) != null;;
     }
 
     public String getPaperId() {
@@ -38,12 +50,12 @@ public class Borrow {
         this.paperId = paperId;
     }
 
-    public String getPaperType() {
-        return paperType;
+    public boolean isBook(){
+        return this.isBook;
     }
 
-    public void setPaperType(String paperType) {
-        this.paperType = paperType;
+    public void setIsBook() {
+        this.isBook = DatabaseManager.getLibrary(this.getLibId()).getBook(this.getPaperId()) != null;
     }
 
     public Date getDate() {
