@@ -76,8 +76,13 @@ public class Library {
         return this.theses.get(id);
     }
 
-    public void removeThesis(String id) {
+    public boolean removeThesis(String id) {
+        ArrayList<Borrow> borrowList = borrows.get(id);
+        if(borrowList != null && borrowList.size() > 0) {
+            return false;
+        }
         this.theses.remove(id);
+        return true;
     }
 
     public boolean borrowBook(Borrow borrow, Object userObj){
@@ -161,18 +166,27 @@ public class Library {
     }
 
     private int calcDebt(Object userObj, Borrow maxBorrow, Date returnDate){
-        int debt;
-        if(maxBorrow.isBook()) {
-            debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 14 * 24) * 100;
-        }else {
-            debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24) * 100;
-        }
-        if(debt < 0){
-            debt = 0;
-        }
+        int debt = 0;
+
         if(userObj instanceof Staff user){
+            if(maxBorrow.isBook()) {
+                debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 14 * 24)*100;
+            }else {
+                debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24)*100;
+            }
+            if(debt < 0){
+                debt = 0;
+            }
             user.setDebt(user.getDebt() + debt);
         } else if (userObj instanceof Student user) {
+            if(maxBorrow.isBook()) {
+                debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24)*50;
+            }else {
+                debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 7 * 24)*50;
+            }
+            if(debt < 0){
+                debt = 0;
+            }
             user.setDebt(user.getDebt() + debt);
         }
         return debt;
