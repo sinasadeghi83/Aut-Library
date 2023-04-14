@@ -55,7 +55,12 @@ public class DatabaseManager {
         staffs.put(staff.getId(), staff);
     }
 
-    public static void deleteStaff(String id) {
+    public static boolean deleteStaff(String id) {
+        Staff staff = staffs.get(id);
+        if(staff.getBorrowCount() > 0 || staff.getDebt() > 0){
+            return false;
+        }
         staffs.remove(id);
+        return true;
     }
 }

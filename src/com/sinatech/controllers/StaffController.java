@@ -21,13 +21,14 @@ public class StaffController {
         staff.update(editStaff);
         return new Response(0); //returns success
     }
-
-    //TODO: Check if the staff has debt or has borrowed a book
+    
     public static Response removeStaff(String id) {
         if(DatabaseManager.getStaff(id) == null){
             return new Response(2); //returns not-found
         }
-        DatabaseManager.deleteStaff(id);
+        if(!DatabaseManager.deleteStaff(id)){
+            return new Response(3); //not-allowed
+        }
         return new Response(0); //returns success
     }
 }
