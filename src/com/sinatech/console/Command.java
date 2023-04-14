@@ -73,6 +73,9 @@ public class Command {
             case "borrow":
                 this.borrow();
                 break;
+            case "return":
+                this.returnPaper();
+                break;
         }
     }
 
@@ -292,15 +295,27 @@ public class Command {
         System.out.println(response);
     }
 
-    public void borrow() throws Exception{
+    private Borrow readBorrowData() throws Exception{
         String id = args.get(0);
-        String password = args.get(1);
         String libId = args.get(2);
         String paperId = args.get(3);
         String dateStr = args.get(4) + "|" + args.get(5);
         Date date = new SimpleDateFormat("yyyy-MM-dd|hh:mm").parse(dateStr);
         Borrow borrow = new Borrow(id, false, paperId, false, date, libId);
+        return borrow;
+    }
+
+    public void borrow() throws Exception{
+        String password = args.get(1);
+        Borrow borrow = readBorrowData();
         Response response = LibraryController.borrow(borrow, password);
+        System.out.println(response);
+    }
+
+    public void returnPaper() throws Exception{
+        String password = args.get(1);
+        Borrow borrow = readBorrowData();
+        Response response = LibraryController.returnPaper(borrow, password);
         System.out.println(response);
     }
 }
