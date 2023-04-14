@@ -72,4 +72,34 @@ public class DatabaseManager {
         staffs.remove(id);
         return true;
     }
+
+    public static ArrayList<Staff> getStaffs(){
+        return new ArrayList<>(staffs.values());
+    }
+
+    public static ArrayList<Student> getStudents(){
+        return new ArrayList<>(students.values());
+    }
+
+    public static String searchUser(String query) {
+        String result = "";
+        for (Staff staff :
+                getStaffs()) {
+            if(staff.toString().toLowerCase().contains(query)){
+                result += "|" + staff.getId();
+            }
+        }
+        for (Student student :
+                getStudents()) {
+            if(student.toString().toLowerCase().contains(query)){
+                result += "|" + student.getId();
+            }
+        }
+
+        if(result.length() > 0){
+            result = result.substring(1);
+        }
+
+        return result;
+    }
 }
