@@ -2,6 +2,7 @@ package com.sinatech.components;
 
 import com.sinatech.models.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseManager {
@@ -23,6 +24,9 @@ public class DatabaseManager {
         return libraries.get(id);
     }
 
+    public static ArrayList<Library> getLibraries(){
+        return new ArrayList<>(libraries.values());
+    }
     public static void insertLibrary(Library library){
         libraries.put(library.getId(), library);
     }
