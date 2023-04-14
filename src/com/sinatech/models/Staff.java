@@ -32,7 +32,8 @@ public class Staff {
     }
 
     public int getBorrowCount(String libId) {
-        Integer count = borrowCount.get(libId);
+//        Integer count = borrowCount.get(libId);
+        Integer count = borrowCount.get("0");
         if(count == null){
             return 0;
         }
@@ -40,7 +41,8 @@ public class Staff {
     }
 
     public void setBorrowCount(String libId, int borrowCount) {
-        this.borrowCount.put(libId, borrowCount);
+//        this.borrowCount.put(libId, borrowCount);
+        this.borrowCount.put("0", borrowCount);
     }
 
     public boolean isBorrowed(){

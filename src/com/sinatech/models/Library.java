@@ -94,6 +94,11 @@ public class Library {
             borrowList = new ArrayList<>();
         }
         if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == book.getCopyCount()){
+            if(!checkUserAbleToBorrow(userObj, borrow.getPaperId())){
+//                System.out.println("user is unable");
+//            }else{
+//                System.out.println("too much borrowed");
+            }
             return false;
         }
         increaseUserBorrow(userObj);
@@ -109,6 +114,11 @@ public class Library {
             borrowList = new ArrayList<>();
         }
         if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == 1){
+            if(!checkUserAbleToBorrow(userObj, borrow.getPaperId())){
+//                System.out.println("user is unable");
+//            }else{
+//                System.out.println("too much borrowed");
+            }
             return false;
         }
         increaseUserBorrow(userObj);
@@ -119,9 +129,21 @@ public class Library {
 
     private boolean checkUserAbleToBorrow(Object userObj, String paperId){
         if(userObj instanceof Staff staff){
-            return staff.getBorrowCount(this.id) <= 5 && getMaxBorrow(borrows.get(paperId), staff.getId()) == null;
+            if(staff.getBorrowCount(this.id) > 5){
+//                System.out.println("user borrowed too much");
+            }else{
+//                System.out.println("user borrowed this book before");
+            }
+//            return staff.getBorrowCount(this.id) <= 5 && getMaxBorrow(borrows.get(paperId), staff.getId()) == null;
+            return staff.getBorrowCount(this.id) < 5;
         }else if(userObj instanceof Student student){
-            return student.getBorrowCount(this.id) <= 3 && getMaxBorrow(borrows.get(paperId), student.getId()) == null;
+            if(student.getBorrowCount(this.id) > 5){
+//                System.out.println("user borrowed too much");
+            }else{
+//                System.out.println("user borrowed this book before");
+            }
+//            return student.getBorrowCount(this.id) <= 3 && getMaxBorrow(borrows.get(paperId), student.getId()) == null;
+            return student.getBorrowCount(this.id) < 3;
         }
         return false;
     }
@@ -137,8 +159,17 @@ public class Library {
         }
         int debt = calcDebt(maxBorrow, returnBor.getDate());
         setDebt(user, debt);
+        decreaseUserBorrow(user);
         borrowList.remove(maxBorrow);
         return debt;
+    }
+
+    private void decreaseUserBorrow(Object userObj) {
+        if(userObj instanceof Staff staff){
+            staff.setBorrowCount(this.id, staff.getBorrowCount(this.id)-1);
+        } else if (userObj instanceof Student student) {
+            student.setBorrowCount(this.id, student.getBorrowCount(this.id)-1);
+        }
     }
 
     public String search(String query){
