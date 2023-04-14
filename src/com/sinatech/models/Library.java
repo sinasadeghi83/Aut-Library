@@ -317,7 +317,7 @@ public class Library {
 
         for (Thesis thesis :
                 new ArrayList<>(theses.values())) {
-            if(thesis.getCatId().equals(thesis.getCatId())){
+            if(thesis.getCatId().equals(id)){
                 result[1]++;
             }
         }
