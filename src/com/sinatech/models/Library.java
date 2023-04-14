@@ -88,17 +88,11 @@ public class Library {
 
     public boolean borrowBook(Borrow borrow, Object userObj){
         Book book = this.getBook(borrow.getPaperId());
-//        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
         ArrayList<Borrow> borrowList = borrows.get(borrow.getPaperId());
         if(borrowList == null){
             borrowList = new ArrayList<>();
         }
         if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == book.getCopyCount()){
-            if(!checkUserAbleToBorrow(userObj, borrow.getPaperId())){
-//                System.out.println("user is unable");
-//            }else{
-//                System.out.println("too much borrowed");
-            }
             return false;
         }
         increaseUserBorrow(userObj);
@@ -108,17 +102,11 @@ public class Library {
     }
 
     public boolean borrowThesis(Borrow borrow, Object userObj) {
-//        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
         ArrayList<Borrow> borrowList = borrows.get(borrow.getPaperId());
         if(borrowList == null){
             borrowList = new ArrayList<>();
         }
         if(!checkUserAbleToBorrow(userObj, borrow.getPaperId()) || borrowList.size() == 1){
-            if(!checkUserAbleToBorrow(userObj, borrow.getPaperId())){
-//                System.out.println("user is unable");
-//            }else{
-//                System.out.println("too much borrowed");
-            }
             return false;
         }
         increaseUserBorrow(userObj);
@@ -129,20 +117,8 @@ public class Library {
 
     private boolean checkUserAbleToBorrow(Object userObj, String paperId){
         if(userObj instanceof Staff staff){
-            if(staff.getBorrowCount(this.id) > 5){
-//                System.out.println("user borrowed too much");
-            }else{
-//                System.out.println("user borrowed this book before");
-            }
-//            return staff.getBorrowCount(this.id) <= 5 && getMaxBorrow(borrows.get(paperId), staff.getId()) == null;
             return staff.getBorrowCount(this.id) < 5;
         }else if(userObj instanceof Student student){
-            if(student.getBorrowCount(this.id) > 5){
-//                System.out.println("user borrowed too much");
-            }else{
-//                System.out.println("user borrowed this book before");
-            }
-//            return student.getBorrowCount(this.id) <= 3 && getMaxBorrow(borrows.get(paperId), student.getId()) == null;
             return student.getBorrowCount(this.id) < 3;
         }
         return false;
