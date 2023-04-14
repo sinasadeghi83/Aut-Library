@@ -142,7 +142,7 @@ public class LibraryController {
         if(library == null){
             return new Response(2); //not-found
         }
-        String result = library.getBooks().size() + " " + library.getTheses().size() + " " + library.getBorrowedBooks().size() + " " + library.getBorrowedTheses().size();
+        String result = library.booksCount() + " " + library.thesesCount() + " " + library.countBorrowedBooks() + " " + library.countBorrowedTheses();
         return new Response(0, result);
     }
 

@@ -295,6 +295,16 @@ public class Library {
         return borBooks;
     }
 
+    public int countBorrowedBooks(){
+        ArrayList<Book> borBooks = getBorrowedBooks();
+        int count = 0;
+        for (Book book:
+             borBooks) {
+            count += borrows.get(book.getId()).size();
+        }
+        return count;
+    }
+
     public ArrayList<Thesis> getBorrowedTheses(){
         ArrayList<Thesis> borTheses = new ArrayList<>();
         for (Thesis thesis :
@@ -306,12 +316,16 @@ public class Library {
         return borTheses;
     }
 
+    public int countBorrowedTheses(){
+        return  getBorrowedTheses().size();
+    }
+
     public int[] catReport(String id) {
         int[] result = new int[]{0, 0};
         for (Book book :
                 new ArrayList<>(books.values())) {
             if (book.getCatId().equals(id)) {
-                result[0]++;
+                result[0]+= book.getCopyCount();
             }
         }
 
@@ -323,6 +337,20 @@ public class Library {
         }
 
         return result;
+    }
+
+    public int booksCount(){
+        ArrayList<Book> books1 = getBooks();
+        int count = 0;
+        for (Book book:
+             books1) {
+            count += book.getCopyCount();
+        }
+        return count;
+    }
+
+    public int thesesCount(){
+        return getTheses().size();
     }
 
     private Borrow getMinBorrow(ArrayList<Borrow> borrowList){
