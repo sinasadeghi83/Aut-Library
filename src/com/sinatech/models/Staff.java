@@ -113,4 +113,9 @@ public class Staff {
             this.setPassword(editStaff.getPassword());
         }
     }
+
+    @Override
+    public String toString() {
+        return firstName + "|" + lastName;
+    }
 }

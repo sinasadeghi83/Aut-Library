@@ -112,4 +112,9 @@ public class Student {
             this.setPassword(editStudent.getPassword());
         }
     }
+
+    @Override
+    public String toString() {
+        return firstName + "|" + lastName;
+    }
 }
