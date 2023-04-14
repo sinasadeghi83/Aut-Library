@@ -1,12 +1,12 @@
 package com.sinatech.models;
 
-import com.sinatech.components.DatabaseManager;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class Library {
+
+    public static final int RETURN_FALSE = -1;
     private String id;
     private String name;
     private Date foundDate;
@@ -107,11 +107,61 @@ public class Library {
         return false;
     }
 
+    public int returnPaper(Borrow returnBor, Object user) {
+        ArrayList<Borrow> borrowList = borrows.get(returnBor.getPaperId());
+        if(borrowList == null){
+            return RETURN_FALSE;
+        }
+        Borrow maxBorrow = getMaxBorrow(borrowList, returnBor.getUserId());
+        if(maxBorrow == null){
+            return RETURN_FALSE;
+        }
+        int debt = calcDebt(user, maxBorrow, returnBor.getDate());
+        borrowList.remove(maxBorrow);
+        return debt;
+    }
+
     private void increaseUserBorrow(Object userObj) {
         if(userObj instanceof Staff staff){
             staff.setBorrowCount(staff.getBorrowCount()+1);
         } else if (userObj instanceof Student student) {
             student.setBorrowedCount(student.getBorrowedCount()+1);
         }
+    }
+
+    private Borrow getMaxBorrow(ArrayList<Borrow> borrowList, String userId){
+        Borrow maxBorrow = null;
+        for(int i = 0; i < borrowList.size(); i++){
+            Borrow temp = borrowList.get(i);
+            if(!temp.getUserId().equals(userId)){
+                continue;
+            }
+            if(maxBorrow == null){
+                maxBorrow = temp;
+                continue;
+            }
+            if(temp.getDate().getTime() > maxBorrow.getDate().getTime()){
+                maxBorrow = temp;
+            }
+        }
+        return maxBorrow;
+    }
+
+    private int calcDebt(Object userObj, Borrow maxBorrow, Date returnDate){
+        int debt;
+        if(maxBorrow.isBook()) {
+            debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 14 * 24) * 100;
+        }else {
+            debt = (int) (((returnDate.getTime() - maxBorrow.getDate().getTime()) / 3600000) - 10 * 24) * 100;
+        }
+        if(debt < 0){
+            debt = 0;
+        }
+        if(userObj instanceof Staff user){
+            user.setDebt(user.getDebt() + debt);
+        } else if (userObj instanceof Student user) {
+            user.setDebt(user.getDebt() + debt);
+        }
+        return debt;
     }
 }
