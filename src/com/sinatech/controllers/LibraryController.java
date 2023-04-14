@@ -1,10 +1,7 @@
 package com.sinatech.controllers;
 
 import com.sinatech.components.DatabaseManager;
-import com.sinatech.models.Book;
-import com.sinatech.models.Category;
-import com.sinatech.models.Library;
-import com.sinatech.models.Response;
+import com.sinatech.models.*;
 
 public class LibraryController {
 
@@ -22,5 +19,54 @@ public class LibraryController {
         }
         DatabaseManager.insertCategory(category);
         return new Response(0); //Returns success
+    }
+
+    public static Response borrow(Borrow borrow, String userPass) {
+        borrow.setIsStaff();
+        Object user;
+        if(borrow.isStaff()){
+            user = DatabaseManager.getStaff(borrow.getUserId());
+        }else{
+            user = DatabaseManager.getStudent(borrow.getUserId());
+        }
+        if(user == null){
+            return new Response(2); // not-found
+        }
+
+        if(!checkUserPass(user, userPass, borrow.isStaff())){
+            return new Response(4); //invalid-pass
+        }
+
+        Library library = DatabaseManager.getLibrary(borrow.getLibId());
+        if(library == null){
+            return new Response(2); //not-found
+        }
+
+        borrow.setIsBook();
+        if(borrow.isBook() && library.getBook(borrow.getPaperId()) == null){
+            return new Response(2); //not-found
+        }
+
+        if(!borrow.isBook() && library.getThesis(borrow.getPaperId()) == null){
+            return new Response(2); //not-found
+        }
+
+        if(borrow.isBook() && !library.borrowBook(borrow)){
+            return new Response(3); //not-allowed
+        }
+        if (!borrow.isBook() && !library.borrowThesis(borrow)) {
+            return new Response(3); //not-allowed
+        }
+        return new Response(0); //success
+    }
+
+    private static boolean checkUserPass(Object userObj, String userPass, boolean isStaff){
+        if(isStaff){
+            Staff user = (Staff) userObj;
+            return userPass.equals(user.getPassword());
+        }else{
+            Student user = (Student) userObj;
+            return userPass.equals(user.getPassword());
+        }
     }
 }

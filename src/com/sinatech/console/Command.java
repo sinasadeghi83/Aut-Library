@@ -70,6 +70,9 @@ public class Command {
             case "remove-staff":
                 this.removeStaff();
                 break;
+            case "borrow":
+                this.borrow();
+                break;
         }
     }
 
@@ -286,6 +289,18 @@ public class Command {
     public void removeStaff() throws Exception{
         String id = args.get(0);
         Response response = StaffController.removeStaff(id);
+        System.out.println(response);
+    }
+
+    public void borrow() throws Exception{
+        String id = args.get(0);
+        String password = args.get(1);
+        String libId = args.get(2);
+        String paperId = args.get(3);
+        String dateStr = args.get(4) + "|" + args.get(5);
+        Date date = new SimpleDateFormat("yyyy-MM-dd|hh:mm").parse(dateStr);
+        Borrow borrow = new Borrow(id, false, paperId, false, date, libId);
+        Response response = LibraryController.borrow(borrow, password);
         System.out.println(response);
     }
 }
