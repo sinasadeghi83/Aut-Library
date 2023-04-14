@@ -47,8 +47,7 @@ public class BookController {
         book.update(editBook);
         return new Response(0); //Returns success
     }
-
-    //TODO: Checking if some students borrowed this book
+    
     public static Response removeBook(String id, String libId) {
         //Check if library exist in database
         Library library = DatabaseManager.getLibrary(libId);
@@ -60,7 +59,9 @@ public class BookController {
             return new Response(2); //Returns not-found
         }
 
-        library.removeBook(id);
+        if(!library.removeBook(id)){
+            return new Response(3); //not-allowed
+        }
         return new Response(0); //Returns success
     }
 }

@@ -59,8 +59,12 @@ public class Library {
         return this.books.get(bookId);
     }
 
-    public void removeBook(String id) {
+    public boolean removeBook(String id) {
+        if(borrows.get(id) != null) {
+            return false;
+        }
         this.books.remove(id);
+        return true;
     }
 
     public void addThesis(Thesis thesis){
