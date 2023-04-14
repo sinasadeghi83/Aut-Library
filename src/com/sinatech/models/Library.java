@@ -139,6 +139,46 @@ public class Library {
         return debt;
     }
 
+    public String search(String query){
+        String result;
+        String bookResult = searchBook(query);
+        String thesisResult = searchThesis(query);
+        if(bookResult.length() > 0 && thesisResult.length() > 0){
+            result = bookResult + thesisResult;
+        }else{
+            result = bookResult + thesisResult;
+        }
+        return result;
+    }
+
+    public String searchBook(String query){
+        String result = "";
+        for (Book book :
+                new ArrayList<>(books.values())) {
+            if(book.toString().toLowerCase().contains(query)){
+                result += "|" + book.getId();
+            }
+        }
+        if(result.length() > 0){
+            result = result.substring(1);
+        }
+        return result;
+    }
+
+    public String searchThesis(String query){
+        String result = "";
+        for (Thesis thesis :
+                new ArrayList<>(theses.values())) {
+            if(thesis.toString().toLowerCase().contains(query)){
+                result += "|" + thesis.getId();
+            }
+        }
+        if(result.length() > 0){
+            result = result.substring(1);
+        }
+        return result;
+    }
+
     private void increaseUserBorrow(Object userObj) {
         if(userObj instanceof Staff staff){
             staff.setBorrowCount(staff.getBorrowCount()+1);
