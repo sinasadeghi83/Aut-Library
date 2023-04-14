@@ -108,4 +108,9 @@ public class Book {
             this.setCatId(editBook.getCatId());
         }
     }
+
+    @Override
+    public String toString() {
+        return title + "|" + author + "|" + pub;
+    }
 }

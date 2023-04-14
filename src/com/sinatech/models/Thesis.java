@@ -86,4 +86,9 @@ public class Thesis {
             this.setStudName(editThesis.getStudName());
         }
     }
+
+    @Override
+    public String toString() {
+        return title + "|" + studName + "|" + profName;
+    }
 }
