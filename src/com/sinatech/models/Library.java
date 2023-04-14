@@ -75,24 +75,43 @@ public class Library {
         this.theses.remove(id);
     }
 
-    public boolean borrowBook(Borrow borrow){
+    public boolean borrowBook(Borrow borrow, Object userObj){
         Book book = this.getBook(borrow.getPaperId());
         ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
-        if(borrowList.size() == book.getCopyCount()){
+        if(!checkUserAbleToBorrow(userObj) || borrowList.size() == book.getCopyCount()){
             return false;
         }
+        increaseUserBorrow(userObj);
         borrowList.add(borrow);
         borrows.put(borrow.getPaperId(), borrowList);
         return true;
     }
 
-    public boolean borrowThesis(Borrow borrow) {
+    public boolean borrowThesis(Borrow borrow, Object userObj) {
         ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
-        if(borrowList.size() == 1){
+        if(!checkUserAbleToBorrow(userObj) || borrowList.size() == 1){
             return false;
         }
+        increaseUserBorrow(userObj);
         borrowList.add(borrow);
         borrows.put(borrow.getPaperId(), borrowList);
         return true;
+    }
+
+    private boolean checkUserAbleToBorrow(Object userObj){
+        if(userObj instanceof Staff staff){
+            return staff.getBorrowCount() <= 5;
+        }else if(userObj instanceof Student student){
+            return student.getBorrowedCount() <= 3;
+        }
+        return false;
+    }
+
+    private void increaseUserBorrow(Object userObj) {
+        if(userObj instanceof Staff staff){
+            staff.setBorrowCount(staff.getBorrowCount()+1);
+        } else if (userObj instanceof Student student) {
+            student.setBorrowedCount(student.getBorrowedCount()+1);
+        }
     }
 }

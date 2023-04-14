@@ -51,10 +51,10 @@ public class LibraryController {
             return new Response(2); //not-found
         }
 
-        if(borrow.isBook() && !library.borrowBook(borrow)){
+        if(borrow.isBook() && !library.borrowBook(borrow, user)){
             return new Response(3); //not-allowed
         }
-        if (!borrow.isBook() && !library.borrowThesis(borrow)) {
+        if (!borrow.isBook() && !library.borrowThesis(borrow, user)) {
             return new Response(3); //not-allowed
         }
         return new Response(0); //success
