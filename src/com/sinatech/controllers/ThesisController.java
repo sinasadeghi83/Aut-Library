@@ -45,7 +45,6 @@ public class ThesisController {
         return new Response(0); //Returns success
     }
 
-    //TODO: Checking if thesis is borrowed by someone
     public static Response removeThesis(String id, String libId) {
         //Check if library exist in database
         Library library = DatabaseManager.getLibrary(libId);
@@ -57,7 +56,9 @@ public class ThesisController {
             return new Response(2); //Returns not-found
         }
 
-        library.removeThesis(id);
+        if(!library.removeThesis(id)){
+            return new Response(3); //Returns not-allowed
+        }
         return new Response(0); //Returns success
     }
 }
