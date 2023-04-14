@@ -7,6 +7,8 @@ public class Staff {
     private Date birthdate;
     private String address;
 
+    private int borrowCount;
+
     public Staff(String id, String password, String firstName, String lastName, String nationalCode, Date birthdate, String address) {
         this.id = id;
         this.password = password;
@@ -15,6 +17,15 @@ public class Staff {
         this.nationalCode = nationalCode;
         this.birthdate = birthdate;
         this.address = address;
+        this.borrowCount = 0;
+    }
+
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(int borrowCount) {
+        this.borrowCount = borrowCount;
     }
 
     public String getId() {

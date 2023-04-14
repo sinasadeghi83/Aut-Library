@@ -6,6 +6,7 @@ public class Student {
     private String id, password, firstName, lastName, nationalCode;
     private Date birthdate;
     private String address;
+    private int borrowedCount;
 
     public Student(String id, String password, String firstName, String lastName, String nationalCode, Date birthdate, String address) {
         this.id = id;
@@ -15,6 +16,15 @@ public class Student {
         this.nationalCode = nationalCode;
         this.birthdate = birthdate;
         this.address = address;
+        this.borrowedCount = 0;
+    }
+
+    public int getBorrowedCount() {
+        return borrowedCount;
+    }
+
+    public void setBorrowedCount(int borrowedCount) {
+        this.borrowedCount = borrowedCount;
     }
 
     public String getId() {
