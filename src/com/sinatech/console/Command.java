@@ -85,6 +85,9 @@ public class Command {
             case "category-report":
                 this.catReport();
                 break;
+            case "library-report":
+                this.libReport();
+                break;
         }
     }
 
@@ -345,6 +348,12 @@ public class Command {
     public void catReport(){
         String id = args.get(0);
         Response response = LibraryController.catReport(id);
+        System.out.println(response);
+    }
+
+    public void libReport(){
+        String id = args.get(0);
+        Response response = LibraryController.libReport(id);
         System.out.println(response);
     }
 }

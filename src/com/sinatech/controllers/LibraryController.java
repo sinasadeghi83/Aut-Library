@@ -133,4 +133,13 @@ public class LibraryController {
         }
         return new Response(0, bookCount + " " + thesisCount);
     }
+
+    public static Response libReport(String id) {
+        Library library = DatabaseManager.getLibrary(id);
+        if(library == null){
+            return new Response(2); //not-found
+        }
+        String result = library.getBooks().size() + " " + library.getTheses().size() + " " + library.getBorrowedBooks().size() + " " + library.getBorrowedTheses().size();
+        return new Response(0, result);
+    }
 }

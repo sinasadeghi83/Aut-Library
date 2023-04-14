@@ -16,7 +16,7 @@ public class Library {
     private HashMap<String, Book> books;
     //Thesis' id -> Thesis' object
     private HashMap<String, Thesis> theses;
-    //Book id -> Borrow object
+    //Paper id -> Borrow object
     private HashMap<String, ArrayList<Borrow>> borrows;
 
     public Library(String id, String name, Date foundDate, int tableCount, String address) {
@@ -230,6 +230,36 @@ public class Library {
             user.setDebt(user.getDebt() + debt);
         }
         return debt;
+    }
+
+    public ArrayList<Book> getBooks(){
+        return new ArrayList<>(this.books.values());
+    }
+
+    public ArrayList<Thesis> getTheses(){
+        return new ArrayList<>(this.theses.values());
+    }
+
+    public ArrayList<Book> getBorrowedBooks(){
+        ArrayList<Book> borBooks = new ArrayList<>();
+        for (Book book :
+                getBooks()) {
+            if(borrows.containsKey(book.getId())){
+                borBooks.add(book);
+            }
+        }
+        return borBooks;
+    }
+
+    public ArrayList<Thesis> getBorrowedTheses(){
+        ArrayList<Thesis> borTheses = new ArrayList<>();
+        for (Thesis thesis :
+                getTheses()) {
+            if(borrows.containsKey(thesis.getId())){
+                borTheses.add(thesis);
+            }
+        }
+        return borTheses;
     }
 
     public int[] catReport(String id) {
