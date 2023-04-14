@@ -100,16 +100,16 @@ public class LibraryController {
 
     public static Response search(String query) {
         query = query.toLowerCase();
-        ArrayList<String> result = new ArrayList<>();
+        HashSet<String> resultSet = new HashSet<>();
         for (Library lib:
                 DatabaseManager.getLibraries()) {
-            result.addAll(lib.search(query));
+            resultSet.addAll(lib.search(query));
         }
 
-        if(result.size() == 0){
+        if(resultSet.size() == 0){
             return new Response(2); //not-found
         }
-
+        ArrayList<String> result = new ArrayList<>(resultSet);
         Collections.sort(result);
         String strResult = "";
         for (int i = 0; i < result.size(); i++) {

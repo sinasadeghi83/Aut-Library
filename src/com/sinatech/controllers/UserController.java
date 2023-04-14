@@ -7,6 +7,7 @@ import com.sinatech.models.Student;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
 public class UserController {
 
@@ -28,11 +29,12 @@ public class UserController {
             return new Response(4); //invalid-pass
         }
 
-        ArrayList<String> result = DatabaseManager.searchUser(query);
-        if(result.size() == 0){
+        HashSet<String> resultSet = DatabaseManager.searchUser(query);
+        if(resultSet.size() == 0){
             return new Response(2); //not-found
         }
 
+        ArrayList<String> result = new ArrayList<>(resultSet);
         Collections.sort(result);
         String strResult = "";
         for (int i = 0; i < result.size(); i++) {

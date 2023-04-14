@@ -4,6 +4,7 @@ import com.sinatech.models.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DatabaseManager {
     private static HashMap<String, Library> libraries;
@@ -81,8 +82,8 @@ public class DatabaseManager {
         return new ArrayList<>(students.values());
     }
 
-    public static ArrayList<String> searchUser(String query) {
-        ArrayList<String> result = new ArrayList<>();
+    public static HashSet<String> searchUser(String query) {
+        HashSet<String> result = new HashSet<>();
         for (Staff staff :
                 getStaffs()) {
             if(staff.toString().toLowerCase().contains(query)){
