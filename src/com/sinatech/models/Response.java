@@ -5,7 +5,9 @@ public class Response {
     public static final String[] ID_DEFAULT_MSG = new String[]{
             "success", //id: 0
             "duplicate-id", //id: 1
-            "not-found" //id: 2
+            "not-found", //id: 2
+            "not-allowed", //id: 3
+            "invalid-pass", //id: 4
     };
     private int id;
     private String message;
