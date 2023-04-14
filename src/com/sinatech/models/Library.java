@@ -60,7 +60,8 @@ public class Library {
     }
 
     public boolean removeBook(String id) {
-        if(borrows.get(id) != null) {
+        ArrayList<Borrow> borrowList = borrows.get(id);
+        if(borrowList != null && borrowList.size() > 0) {
             return false;
         }
         this.books.remove(id);
@@ -81,7 +82,11 @@ public class Library {
 
     public boolean borrowBook(Borrow borrow, Object userObj){
         Book book = this.getBook(borrow.getPaperId());
-        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
+//        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
+        ArrayList<Borrow> borrowList = borrows.get(borrow.getPaperId());
+        if(borrowList == null){
+            borrowList = new ArrayList<>();
+        }
         if(!checkUserAbleToBorrow(userObj) || borrowList.size() == book.getCopyCount()){
             return false;
         }
@@ -92,7 +97,11 @@ public class Library {
     }
 
     public boolean borrowThesis(Borrow borrow, Object userObj) {
-        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
+//        ArrayList<Borrow> borrowList = borrows.computeIfAbsent(borrow.getPaperId(), k -> new ArrayList<>());
+        ArrayList<Borrow> borrowList = borrows.get(borrow.getPaperId());
+        if(borrowList == null){
+            borrowList = new ArrayList<>();
+        }
         if(!checkUserAbleToBorrow(userObj) || borrowList.size() == 1){
             return false;
         }
