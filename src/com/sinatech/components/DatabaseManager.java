@@ -81,23 +81,19 @@ public class DatabaseManager {
         return new ArrayList<>(students.values());
     }
 
-    public static String searchUser(String query) {
-        String result = "";
+    public static ArrayList<String> searchUser(String query) {
+        ArrayList<String> result = new ArrayList<>();
         for (Staff staff :
                 getStaffs()) {
             if(staff.toString().toLowerCase().contains(query)){
-                result += "|" + staff.getId();
+                result.add(staff.getId());
             }
         }
         for (Student student :
                 getStudents()) {
             if(student.toString().toLowerCase().contains(query)){
-                result += "|" + student.getId();
+                result.add(student.getId());
             }
-        }
-
-        if(result.length() > 0){
-            result = result.substring(1);
         }
 
         return result;
