@@ -3,6 +3,8 @@ package com.sinatech.controllers;
 import com.sinatech.components.DatabaseManager;
 import com.sinatech.models.*;
 
+import javax.xml.crypto.Data;
+
 public class LibraryController {
 
     public static Response addLibrary(Library library){
@@ -90,6 +92,19 @@ public class LibraryController {
             return new Response(0, Integer.toString(result));
         }
         return new Response(0); //success
+    }
+
+    public static Response search(String query) {
+        query = query.toLowerCase();
+        String result = "";
+        for (Library lib:
+                DatabaseManager.getLibraries()) {
+            result += "|" + lib.search(query);
+        }
+        if(result.length() > 0){
+            result = result.substring(1);
+        }
+        return new Response(0, result);
     }
 
     private static boolean checkUserPass(Object userObj, String userPass, boolean isStaff){

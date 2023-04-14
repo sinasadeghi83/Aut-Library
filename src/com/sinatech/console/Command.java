@@ -76,6 +76,9 @@ public class Command {
             case "return":
                 this.returnPaper();
                 break;
+            case "search":
+                this.search();
+                break;
         }
     }
 
@@ -316,6 +319,12 @@ public class Command {
         String password = args.get(1);
         Borrow borrow = readBorrowData();
         Response response = LibraryController.returnPaper(borrow, password);
+        System.out.println(response);
+    }
+
+    public void search() throws Exception{
+        String query = args.get(0);
+        Response response = LibraryController.search(query);
         System.out.println(response);
     }
 }
