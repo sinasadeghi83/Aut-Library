@@ -6,7 +6,7 @@ import com.sinatech.models.Staff;
 
 public class StaffController {
     public static Response addStaff(Staff staff) {
-        if(DatabaseManager.getStaff(staff.getId()) != null){
+        if(DatabaseManager.getStaff(staff.getId()) != null || DatabaseManager.getStudent(staff.getId()) != null){
             return new Response(1); //returns duplicate-id
         }
         DatabaseManager.insertStaff(staff);

@@ -64,6 +64,8 @@ public class Library {
         ArrayList<Borrow> borrowList = borrows.get(id);
         if(borrowList != null && borrowList.size() > 0) {
             return false;
+        }else if(borrowList != null){
+            borrows.remove(id);
         }
         this.books.remove(id);
         return true;
@@ -81,6 +83,8 @@ public class Library {
         ArrayList<Borrow> borrowList = borrows.get(id);
         if(borrowList != null && borrowList.size() > 0) {
             return false;
+        }else if(borrowList != null){
+            borrows.remove(id);
         }
         this.theses.remove(id);
         return true;
@@ -281,7 +285,7 @@ public class Library {
     }
 
     public int countBorrowedTheses(){
-        return  getBorrowedTheses().size();
+        return getBorrowedTheses().size();
     }
 
     public int[] catReport(String id) {

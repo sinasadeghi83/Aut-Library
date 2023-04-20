@@ -7,7 +7,7 @@ import com.sinatech.models.Student;
 public class StudentController {
 
     public static Response addStudent(Student student) {
-        if(DatabaseManager.getStudent(student.getId()) != null){
+        if(DatabaseManager.getStudent(student.getId()) != null || DatabaseManager.getStaff(student.getId()) != null){
             return new Response(1); //returns duplicate-id
         }
         DatabaseManager.insertStudent(student);
