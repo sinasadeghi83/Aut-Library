@@ -141,6 +141,9 @@ public class Library {
         setDebt(user, debt);
         decreaseUserBorrow(user);
         borrowList.remove(maxBorrow);
+        if(borrowList.size() == 0){
+            borrows.remove(returnBor.getPaperId());
+        }
         return debt;
     }
 
